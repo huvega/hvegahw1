@@ -1,5 +1,5 @@
 ---
-author: Hugo Vega
+author: Hugo Vega Fajardo
 editor: 
   markdown: 
     wrap: 72

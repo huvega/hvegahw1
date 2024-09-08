@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Hugo Vega Fajardo">
+<meta name="author" content="Hugo Vega">
 
 <title>lab1b</title>
 <style>
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -55,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Hugo Vega Fajardo </p>
+             <p>Hugo Vega </p>
           </div>
   </div>
     
@@ -68,8 +102,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>{ {;;} {*;;} </p>
-<p> URL<br>
+<p>{\ansi\ansicpg1252\cocoartf2761 \cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;} {;\green255\blue255;} {*;;} \margr1440\vieww15440\viewh8560\viewkind0 \tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0</p>
+<p>\fs36 URL<br>
 <br>
 https://github.com/huvega/lab1.git<br>
 <br>
@@ -93,6 +127,146 @@ fatal: destination path ‘lab1’ already exists and is not an empty directory.
 <br>
 second repository with a readme file<br>
 https://github.com/huvega/hvegahw1.git}</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggridges"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nycbnb <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"nycbnb.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="exercises" class="level1">
+<h1>Exercises</h1>
+<p><strong>Problem 1.</strong> How many observations (rows) does the dataset have? Instead of hard coding the number in your answer, use inline code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>num_rows <span class="ot">&lt;-</span> <span class="fu">nrow</span>(nycbnb)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>num_rows</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 37765</code></pre>
+</div>
+</div>
+<p><strong>Problem 2.</strong> Run <code>View(nycbnb)</code> in your Console to view the data in the data viewer. What does each row in the dataset represent? Each row represent an accommodation, room or apartment to rent.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nycbnb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "id"                   "price"                "neighborhood"        
+ [4] "borough"              "accommodates"         "bathrooms"           
+ [7] "bedrooms"             "beds"                 "review_scores_rating"
+[10] "number_of_reviews"    "listing_url"         </code></pre>
+</div>
+</div>
+<p><strong>Problem 3.</strong> Pick one of the five boroughs of NYC (Manhattan, Queens, Brooklyn, the Bronx, or Staten Island), and create a faceted histogram where each facet represents a neighborhood in your chosen borough and displays the distribution of Airbnb prices in that neighborhood. Think critically about whether it makes more sense to stack the facets on top of each other in a column, lay them out in a row, or wrap them around. Along with your visualization, include your reasoning for the layout you chose for your facets.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>bronx_data <span class="ot">&lt;-</span> nycbnb[nycbnb<span class="sc">$</span>borough <span class="sc">==</span> <span class="st">"Bronx"</span>, ]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create faceted histogram</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bronx_data, <span class="fu">aes</span>(<span class="at">x =</span> price)) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">70</span>, <span class="at">fill =</span> <span class="st">"skyblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>neighborhood, <span class="at">ncol=</span><span class="dv">7</span>) <span class="sc">+</span>  <span class="co"># 3 columns for facets</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Airbnb Price Distribution in Bronx by Neighborhood"</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Price"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Listings"</span>) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 359 rows containing non-finite outside the scale range
+(`stat_bin()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab1b_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Clarity and Comparison:</strong> Wrapping the facets into multiple columns allows for easier comparison between neighborhoods. Arranging them in a single column or row would result in either very tall or very wide visuals, making it difficult to see the distributions side-by-side. If you have a large number of neighborhoods in the Bronx, consider using facet_wrap instead, as it allows you to explicitly control the number of columns and create a more compact layout.</p>
+<p><strong>Visual Appeal:</strong> The wrapped layout generally looks more organized and aesthetically pleasing than a single long column or row of facets.</p>
+<p><strong>Problem 4.</strong> Use a single pipeline to identity the neighborhoods city-wide with the top five median listing prices that have a minimum of 50 listings. Then, in another pipeline filter the data for these five neighborhoods and make ridge plots of the distributions of listing prices in these five neighborhoods. In a third pipeline calculate the minimum, mean, median, standard deviation, IQR, and maximum listing price in each of these neighborhoods. Use the visualization and the summary statistics to describe the distribution of listing prices in the neighborhoods. (Your answer will include three pipelines, one of which ends in a visualization, and a narrative.)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify Top Neighborhoods (Pipeline 1)</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>top_neighborhoods <span class="ot">&lt;-</span> nycbnb <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(neighborhood) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">median_price=</span><span class="fu">median</span>(price), <span class="at">num_listing=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(num_listing <span class="sc">&gt;=</span><span class="dv">50</span>) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(median_price)) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">5</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(neighborhood)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>top_neighborhoods</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Arverne"            "Astoria"            "Battery Park City" 
+[4] "Bay Ridge"          "Bedford-Stuyvesant"</code></pre>
+</div>
+</div>
+<p><strong>Pipeline 1: Identify Top Neighborhoods</strong></p>
+<ul>
+<li><code>group_by(neighborhood)</code>: This groups the data by the <code>neighborhood</code> column, ensuring calculations are performed for each neighborhood individually.</li>
+</ul>
+<!-- -->
+<ul>
+<li><p><code>summarize(median_price = median(price), num_listing = n())</code>: This calculates the <code>median_price</code> (median of prices) and <code>num_listing</code> (count of listings) for each neighborhood group.</p></li>
+<li><p><strong>Top 5 Neighborhoods:</strong> The analysis identified the top 5 neighborhoods city-wide with the highest median listing prices, having at least 50 listings. These neighborhoods are likely to be prime locations with high demand.</p></li>
+<li><p>Finally, I’ll sort by median price in descending order and select the top 5.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize Price Distributions (Pipeline 2)</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>top_neighborhood_data <span class="ot">&lt;-</span> nycbnb <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(neighborhood <span class="sc">%in%</span> top_neighborhoods)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(top_neighborhood_data, <span class="fu">aes</span>(<span class="at">x =</span> price, <span class="at">y =</span> neighborhood, <span class="at">fill =</span> neighborhood)) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span> </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of Listing Prices in Top 5 Neighborhoods"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Price"</span>, </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Neighborhood"</span>) <span class="sc">+</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Picking joint bandwidth of 39.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1380 rows containing non-finite outside the scale range
+(`stat_density_ridges()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab1b_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Pipeline 2: Visualize Price Distributions</strong></p>
+<ul>
+<li><p>The ridge plots visualize the shape of the price distribution for each of these top neighborhoods.</p></li>
+<li><p>We can observe the central tendency (median), spread (IQR), and overall shape (skewness) of the distributions.</p></li>
+<li><p>Comparing the plots helps us understand how prices vary across these neighborhoods.</p></li>
+</ul>
+<p>This second pipeline aims to visualize the distribution of listing prices within each of the top 5 neighborhoods identified in the first pipeline. It uses ridge plots, which are a visually appealing way to display overlapping density curves, making it easy to compare the distributions across different neighborhoods.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Summary Statistics (Pipeline 3)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="ot">&lt;-</span> top_neighborhood_data <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(neighborhood) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Min =</span> <span class="fu">min</span>(price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">Mean =</span> <span class="fu">mean</span>(price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">Median =</span> <span class="fu">median</span>(price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">Std_Dev =</span> <span class="fu">sd</span>(price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">IQR =</span> <span class="fu">IQR</span>(price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">Max =</span> <span class="fu">max</span>(price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(summary_stats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 7
+  neighborhood         Min  Mean Median Std_Dev   IQR   Max
+  &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Arverne               35  220.  150     203.  161     955
+2 Astoria               35  128.  103      87.3  80     671
+3 Battery Park City     80  375.  334     211.  351     886
+4 Bay Ridge             34  123.   99.5   103.   80.5   700
+5 Bedford-Stuyvesant    10  141.  110     117.  121     993</code></pre>
+</div>
+</div>
+<p><strong>Pipeline 3: Calculate Summary Statistics</strong></p>
+<p>I’ve added <code>na.rm = TRUE</code> to all the summary functions to ensure they handle missing values gracefully.</p>
+<p><strong>Explanation</strong></p>
+<ul>
+<li><code>na.rm = TRUE</code>: This tells the functions (<code>min</code>, <code>mean</code>, <code>median</code>, <code>sd</code>, and <code>IQR</code>) to remove any <code>NA</code> or <code>NaN</code> values before performing their calculations.</li>
+</ul>
+<p>Discussion</p>
+<p>Four of the five neighborhoods have similar statistics, Min, Median, and IQR, but Battery Park that is the most expensive neighborhood. Battery Park has the highest Mean and Median despite the highest standard deviation. These tendencies are also appreciated in the price distribution graphs.</p>
+</section>
 
 </main>
 <!-- /main column -->

@@ -1,17 +1,18 @@
 ---
-author: Hugo Vega Fajardo
+author: Hugo Vega 
 editor: 
   markdown: 
     wrap: 72
 ---
 
-{\rtf1\ansi\ansicpg1252\cocoartf2761
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;} {\*\expandedcolortbl;;}
-\margl1440\margr1440\vieww15440\viewh8560\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+{\rtf1\\ansi\\ansicpg1252\\cocoartf2761
+\cocoatextscaling0\\cocoaplatform0{\\fonttbl\\f0\\fswiss\\fcharset0
+Helvetica;} {\colortbl;\red255\\green255\\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\\margr1440\\vieww15440\\viewh8560\\viewkind0
+\pard\tx720\\tx1440\\tx2160\\tx2880\\tx3600\\tx4320\\tx5040\\tx5760\\tx6480\\tx7200\\tx7920\\tx8640\\pardirnatural\\partightenfactor0
 
-\f0\fs36 \cf0 URL\
+\f0\\fs36 \cf0 URL\
 \
 https://github.com/huvega/lab1.git\
 \
@@ -37,3 +38,187 @@ directory.\
 \
 second repository with a readme file\
 https://github.com/huvega/hvegahw1.git}
+
+```{r}
+#| eval: false
+
+install.packages("ggridges")
+
+```
+
+```{r}
+#| label: load-packages
+#| include: false
+library(tidyverse)
+library(ggridges)
+```
+
+```{r}
+#| label: loadData
+#| warning: false
+#| include: true
+
+
+nycbnb = read_csv("nycbnb.csv")
+```
+
+# Exercises
+
+**Problem 1.** How many observations (rows) does the dataset have?
+Instead of hard coding the number in your answer, use inline code.
+
+```{r}
+num_rows <- nrow(nycbnb)
+num_rows
+```
+
+**Problem 2.** Run `View(nycbnb)` in your Console to view the data in
+the data viewer. What does each row in the dataset represent? Each row
+represent an accommodation, room or apartment to rent.
+
+```{r}
+#| label: namesCommand
+#| warning: false
+
+
+names(nycbnb)
+
+```
+
+**Problem 3.** Pick one of the five boroughs of NYC (Manhattan, Queens,
+Brooklyn, the Bronx, or Staten Island), and create a faceted histogram
+where each facet represents a neighborhood in your chosen borough and
+displays the distribution of Airbnb prices in that neighborhood. Think
+critically about whether it makes more sense to stack the facets on top
+of each other in a column, lay them out in a row, or wrap them around.
+Along with your visualization, include your reasoning for the layout you
+chose for your facets.
+
+```{r}
+library(ggplot2)
+bronx_data <- nycbnb[nycbnb$borough == "Bronx", ]
+
+# Create faceted histogram
+ggplot(bronx_data, aes(x = price)) +
+  geom_histogram(binwidth = 70, fill = "skyblue", color = "black") +
+  facet_wrap(~neighborhood, ncol=7) +  # 3 columns for facets
+  labs(title = "Airbnb Price Distribution in Bronx by Neighborhood",
+       x = "Price",
+       y = "Number of Listings") +
+  theme_minimal()
+
+```
+
+**Clarity and Comparison:** Wrapping the facets into multiple columns
+allows for easier comparison between neighborhoods. Arranging them in a
+single column or row would result in either very tall or very wide
+visuals, making it difficult to see the distributions side-by-side. If
+you have a large number of neighborhoods in the Bronx, consider using
+facet_wrap instead, as it allows you to explicitly control the number of
+columns and create a more compact layout.
+
+**Visual Appeal:** The wrapped layout generally looks more organized and
+aesthetically pleasing than a single long column or row of facets.
+
+**Problem 4.** Use a single pipeline to identity the neighborhoods
+city-wide with the top five median listing prices that have a minimum of
+50 listings. Then, in another pipeline filter the data for these five
+neighborhoods and make ridge plots of the distributions of listing
+prices in these five neighborhoods. In a third pipeline calculate the
+minimum, mean, median, standard deviation, IQR, and maximum listing
+price in each of these neighborhoods. Use the visualization and the
+summary statistics to describe the distribution of listing prices in the
+neighborhoods. (Your answer will include three pipelines, one of which
+ends in a visualization, and a narrative.)
+
+```{r}
+library(tidyverse)
+library(ggridges)
+# Identify Top Neighborhoods (Pipeline 1)
+top_neighborhoods <- nycbnb %>% group_by(neighborhood) %>% summarize(median_price=median(price), num_listing=n()) %>% filter(num_listing >=50) %>% arrange(desc(median_price)) %>% head(5) %>% pull(neighborhood)
+top_neighborhoods
+```
+
+**Pipeline 1: Identify Top Neighborhoods**
+
+-   `group_by(neighborhood)`: This groups the data by the `neighborhood`
+    column, ensuring calculations are performed for each neighborhood
+    individually.
+
+<!-- -->
+
+-   `summarize(median_price = median(price), num_listing = n())`: This
+    calculates the `median_price` (median of prices) and `num_listing`
+    (count of listings) for each neighborhood group.
+
+-   **Top 5 Neighborhoods:** The analysis identified the top 5
+    neighborhoods city-wide with the highest median listing prices,
+    having at least 50 listings. These neighborhoods are likely to be
+    prime locations with high demand.
+
+-   Finally, I'll sort by median price in descending order and select
+    the top 5.
+
+```{r}
+# Visualize Price Distributions (Pipeline 2)
+top_neighborhood_data <- nycbnb %>%
+  filter(neighborhood %in% top_neighborhoods)
+
+ggplot(top_neighborhood_data, aes(x = price, y = neighborhood, fill = neighborhood)) +
+  geom_density_ridges(alpha = 0.6) + 
+  labs(title = "Distribution of Listing Prices in Top 5 Neighborhoods",
+       x = "Price", 
+       y = "Neighborhood") +
+  theme_minimal()
+```
+
+**Pipeline 2: Visualize Price Distributions**
+
+-   The ridge plots visualize the shape of the price distribution for
+    each of these top neighborhoods.
+
+-   We can observe the central tendency (median), spread (IQR), and
+    overall shape (skewness) of the distributions.
+
+-   Comparing the plots helps us understand how prices vary across these
+    neighborhoods.
+
+This second pipeline aims to visualize the distribution of listing
+prices within each of the top 5 neighborhoods identified in the first
+pipeline. It uses ridge plots, which are a visually appealing way to
+display overlapping density curves, making it easy to compare the
+distributions across different neighborhoods.
+
+```{r}
+# Calculate Summary Statistics (Pipeline 3)
+summary_stats <- top_neighborhood_data %>%
+  group_by(neighborhood) %>%
+  summarize(Min = min(price, na.rm = TRUE),
+            Mean = mean(price, na.rm = TRUE),
+            Median = median(price, na.rm = TRUE),
+            Std_Dev = sd(price, na.rm = TRUE),
+            IQR = IQR(price, na.rm = TRUE),
+            Max = max(price, na.rm = TRUE))
+
+print(summary_stats)
+
+```
+
+**Pipeline 3: Calculate Summary Statistics**
+
+I've added `na.rm = TRUE` to all the summary functions to ensure they
+handle missing values gracefully.
+
+**Explanation**
+
+-   `na.rm = TRUE`: This tells the functions (`min`, `mean`, `median`,
+    `sd`, and `IQR`) to remove any `NA` or `NaN` values before
+    performing their calculations.
+
+Discussion
+
+Four of the five neighborhoods have similar statistics, Min, Median, and
+IQR, but Battery Park that is the most expensive neighborhood. Battery
+Park has the highest Mean and Median despite the highest standard
+deviation. These tendencies are also appreciated in the price
+distribution graphs.

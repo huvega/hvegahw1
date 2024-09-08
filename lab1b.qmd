@@ -215,10 +215,42 @@ handle missing values gracefully.
     `sd`, and `IQR`) to remove any `NA` or `NaN` values before
     performing their calculations.
 
-Discussion
+**Discussion**
 
 Four of the five neighborhoods have similar statistics, Min, Median, and
 IQR, but Battery Park that is the most expensive neighborhood. Battery
 Park has the highest Mean and Median despite the highest standard
 deviation. These tendencies are also appreciated in the price
 distribution graphs.
+
+**Problem 5.** Create a visualization that will help you compare the
+distribution of review scores (`review_scores_rating`) across
+neighborhoods. You get to decide what type of visualization to create
+and which neighborhoods are most interesting to you, and there is more
+than one correct answer! In your answer, include a brief interpretation
+of how Airbnb guests rate properties in general and how the
+neighborhoods compare to each other in terms of their ratings.
+
+```{r}
+
+# Identify top 5 neighborhoods by listing count
+top_neighborhoods <- nycbnb %>% 
+  group_by(neighborhood) %>%
+  summarize(num_listings = n()) %>%
+  arrange(desc(num_listings)) %>%
+  head(5) %>%
+  pull(neighborhood)
+
+# Filter data for top neighborhoods
+top_neighborhood_data <- nycbnb %>%
+  filter(neighborhood %in% top_neighborhoods)
+
+# Create box plot
+ggplot(top_neighborhood_data, aes(x = neighborhood, y = review_scores_rating, fill = neighborhood)) +
+  geom_boxplot() +
+  labs(title = "Distribution of Review Scores Across Top 5 Neighborhoods",
+       x = "Neighborhood",
+       y = "Review Score") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```

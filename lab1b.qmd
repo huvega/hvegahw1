@@ -74,7 +74,7 @@ num_rows
 
 **Problem 2.** Run `View(nycbnb)` in your Console to view the data in
 the data viewer. What does each row in the dataset represent? Each row
-represent an accommodation, room or apartment to rent.
+represent an observation of an accommodation, room or apartment to rent.
 
 ```{r}
 #| label: namesCommand
@@ -260,3 +260,23 @@ available rent locations and share in common a high rating. Curiously,
 Williamsburg in Brooklyn has the highest rating but also the biggest
 standard deviation. And as expected the among these five neighborhoods,
 three are from Manhattan and there is no neighborhood from Bronx.
+
+```{r}
+library(tidyverse)
+
+# Calculate median review score for each neighborhood within each borough
+summary_data <- nycbnb %>%
+  group_by(borough,neighborhood) %>%
+  summarize(median_review_score = median(review_scores_rating, na.rm = TRUE)) 
+
+# Create the plot
+ggplot(summary_data, aes(x = neighborhood, y = median_review_score, color = borough)) +
+  geom_point(alpha = 0.5) +  # Use points instead of lines for clarity
+  scale_y_reverse() +  # Reverse y-axis for better visual representation
+  labs(title = "Median Review Scores Across Neighborhoods by Borough",
+       x = "Neighborhood",
+       y = "Median Review Score") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank())
+```
+The three lowest median rating scores are not in the Bronx. However, there are no so many neighborhoods from the Bronx offering rooms. Most of the low ranked neighborhoods, between 4.5 and 4.7 belong to Bronx and Staten Island, however both boroughs get high ranked neighborhoods. Most of the Brooklyn and Manhattan neighborhoods are high ranked between 4.8 and 5. And, apparently Queens hast the biggest offering of renting neighborhoods in New York City. In general these observarions highlight the poor economic output of the poorest borough of the city, Bronx. 

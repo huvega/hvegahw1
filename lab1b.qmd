@@ -254,3 +254,9 @@ ggplot(top_neighborhood_data, aes(x = neighborhood, y = review_scores_rating, fi
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+These are the New York City neighborhoods with the highest number of
+available rent locations and share in common a high rating. Curiously,
+Williamsburg in Brooklyn has the highest rating but also the biggest
+standard deviation. And as expected the among these five neighborhoods,
+three are from Manhattan and there is no neighborhood from Bronx.
